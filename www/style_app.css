@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap');
+
+* {
+  font-family: 'Outfit', sans-serif;
+}
+
+body {
+  font-family: "DejaVu Sans Mono";
+}
+
+.tabbable > .nav > li > a {background-color: aqua;  color:black}
+
+.navbar {
+  background: #B3C532;
+  color: black;
+  border-radius: 5px;
+}
+.body {
+  padding-top: 100px;
+  font-family: 'Brush Script MT', cursive;
+}
+
+.fecha,
+.title {
+  text-align: center;
+}
+
+.texto_inicial {
+  font-size: 15px;
+  text-align: justify;
+}
+
+.images {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.col-sm-4 {
+  position: stick;
+}
+
+.cardsteam {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card {
+  background-color: #77BE65;
+  width: 300px;
+  border-radius: 15px;
+}
+
+.card img {
+  border-radius: 50%;
+  margin-top: 5px;
+  width: 120px;
+}
+
+.card .containerteam img {
+  border-radius: 5px;
+  margin-top: 0;
+}
+
+
+.footer,
+.cardsteam {
+  text-align: center;
+}
+
+@media (min-width: 700px){
+  .container {
+    margin-right: 50px;
+  }
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.tabbable > .nav > li > a {
+  background-color: white;
+  color:black
+
+}
+.tabbable > .nav > li[class=active] > a {
+  background-color: black;
+  color:white
+
+}
+
