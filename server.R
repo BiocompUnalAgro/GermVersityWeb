@@ -304,7 +304,7 @@ shinyServer(function(input, output, session) {
         PopData = read.table(input$filetxt$datapath, header = T)
       },
       error = function(e){
-        stop('Upload VCF file')
+        stop('Upload TXT file')
       }
     )
     Genepool <- as.character(PopData$Genepool)
@@ -335,7 +335,7 @@ shinyServer(function(input, output, session) {
         PopData = read.table(input$filetxt$datapath, header = T)
       },
       error = function(e){
-        stop('Upload VCF file')
+        stop('Upload TXT file')
       }
     )
     Genepool <- as.character(PopData$Genepool)
@@ -367,7 +367,7 @@ shinyServer(function(input, output, session) {
         PopData = read.table(input$filetxt$datapath, header = T)
       },
       error = function(e){
-        stop('Upload VCF file')
+        stop('Upload TXT file')
       }
     )
     require("adegenet")
@@ -390,10 +390,10 @@ shinyServer(function(input, output, session) {
 
     tryCatch(
       {
-        PopData = read.table(input$filetxt$datapath)
+        PopData = read.table(input$filetxt$datapath, header = T)
       },
       error = function(e){
-        stop('Upload VCF file')
+        stop('Upload TXT file')
       }
     )
     require("adegenet")
@@ -415,10 +415,10 @@ shinyServer(function(input, output, session) {
 
     tryCatch(
       {
-        PopData = read.table(input$filetxt$datapath)
+        PopData = read.table(input$filetxt$datapath, header = T)
       },
       error = function(e){
-        stop('Upload VCF file')
+        stop('Upload TXT file')
       }
     )
     require("adegenet")
@@ -567,7 +567,7 @@ shinyServer(function(input, output, session) {
 
   output$plot1 <- renderPlot({
     Limapcascores <- data2()[[1]]
-    factoextra::fviz_nbclust(as.data.frame(Limapcascores[,-4]), FUNcluster = kmeans) + 
+    factoextra::fviz_nbclust(as.data.frame(Limapcascores[,-4]), FUNcluster = kmeans) +
       ggplot2::theme_minimal()
   })
 
@@ -684,7 +684,7 @@ shinyServer(function(input, output, session) {
     # replace data by keeping only those variables that don't have missing data
     data <- Datos[ , !missingcols]
 
-    data |> dplyr::group_by(Races) |> dplyr::summarise(n = dplyr::n())
+    data %>% dplyr::group_by(Races) %>% dplyr::summarise(n = dplyr::n())
 
     # create training and test sets
     inTrain <- caret::createDataPartition(y = data$Races, p = 0.6, list = FALSE)
@@ -854,22 +854,22 @@ shinyServer(function(input, output, session) {
     recordsSpecie <- recordsSpecie[,-1]
 
     # We transform into sf format
-    Lunatus <- recordsSpecie |> sf::st_as_sf(coords = c(1, 2),
+    Lunatus <- recordsSpecie %>% sf::st_as_sf(coords = c(1, 2),
                                              crs = "+proj=longlat +ellps=WGS84
                                       +datum=WGS84 +no_defs +towgs84=0,0,0")
     # Generate a buffer
-    Hull <- Lunatus |>
-      sf::st_union() |>
+    Hull <- Lunatus %>%
+      sf::st_union() %>%
       sf::st_convex_hull()
-    Buffer <- Hull |>
-      sf::st_buffer(dist = 1) |>
+    Buffer <- Hull %>%
+      sf::st_buffer(dist = 1) %>%
       sf::st_as_sf()
 
     Bioclimatic <- raster::getData("worldclim", res = 2.5, var = "bio", path = tempdir())
 
     # Crop layers using the buffer
-    Bioclimatic <- Bioclimatic |>
-      raster::crop(Buffer) |>
+    Bioclimatic <- Bioclimatic %>%
+      raster::crop(Buffer) %>%
       raster::trim()
 
     # Selección del número de background points
@@ -887,7 +887,7 @@ shinyServer(function(input, output, session) {
     ## Best Model Prediction
     Models <- Results@results
     Models$ID <- 1:nrow(Models)
-    Models <- Models |>
+    Models <- Models %>%
       dplyr::arrange(AICc)
     BestModels <- Results@models[[Models$ID[1]]]
     Prediction <- raster::predict(Bioclimatic, BestModels, type = "cloglog")
@@ -915,22 +915,22 @@ shinyServer(function(input, output, session) {
     recordsSpecie <- recordsSpecie[,-1]
 
     # We transform into sf format
-    Lunatus <- recordsSpecie |> sf::st_as_sf(coords = c(1, 2),
+    Lunatus <- recordsSpecie %>% sf::st_as_sf(coords = c(1, 2),
                                              crs = "+proj=longlat +ellps=WGS84
                                       +datum=WGS84 +no_defs +towgs84=0,0,0")
     # Generate a buffer
-    Hull <- Lunatus |>
-      sf::st_union() |>
+    Hull <- Lunatus %>%
+      sf::st_union() %>%
       sf::st_convex_hull()
-    Buffer <- Hull |>
-      sf::st_buffer(dist = 1) |>
+    Buffer <- Hull %>%
+      sf::st_buffer(dist = 1) %>%
       sf::st_as_sf()
 
     Bioclimatic <- raster::getData("worldclim", res = 2.5, var = "bio", path = tempdir())
 
     # Crop layers using the buffer
-    Bioclimatic <- Bioclimatic |>
-      raster::crop(Buffer) |>
+    Bioclimatic <- Bioclimatic %>%
+      raster::crop(Buffer) %>%
       raster::trim()
 
     # Selección del número de background points
@@ -946,12 +946,12 @@ shinyServer(function(input, output, session) {
     ## Best Model Prediction
     Models <- Results@results
     Models$ID <- 1:nrow(Models)
-    Models <- Models |>
+    Models <- Models %>%
       dplyr::arrange(AICc)
     BestModels <- Results@models[[Models$ID[1]]]
     Prediction <- raster::predict(Bioclimatic, BestModels, type = "cloglog")
 
-    gdd_ggplot2 <- Prediction$layer |> as("SpatialPixelsDataFrame") |>
+    gdd_ggplot2 <- Prediction$layer %>% as("SpatialPixelsDataFrame") %>%
       as.data.frame()
 
     # Plotting using ggplot2
@@ -1005,22 +1005,22 @@ shinyServer(function(input, output, session) {
     recordsSpecie <- recordsSpecie[,-1]
 
     # We transform into sf format
-    Lunatus <- recordsSpecie |> sf::st_as_sf(coords = c(1, 2),
+    Lunatus <- recordsSpecie %>% sf::st_as_sf(coords = c(1, 2),
                                              crs = "+proj=longlat +ellps=WGS84
                                       +datum=WGS84 +no_defs +towgs84=0,0,0")
     # Generate a buffer
-    Hull <- Lunatus |>
-      sf::st_union() |>
+    Hull <- Lunatus %>%
+      sf::st_union() %>%
       sf::st_convex_hull()
-    Buffer <- Hull |>
-      sf::st_buffer(dist = 1) |>
+    Buffer <- Hull %>%
+      sf::st_buffer(dist = 1) %>%
       sf::st_as_sf()
 
     Bioclimatic <- raster::getData("worldclim", res = 2.5, var = "bio", path = tempdir())
 
     # Crop layers using the buffer
-    Bioclimatic <- Bioclimatic |>
-      raster::crop(Buffer) |>
+    Bioclimatic <- Bioclimatic %>%
+      raster::crop(Buffer) %>%
       raster::trim()
 
     # Option 1: Extracting Environmental Data from Occurrences Points of Species
@@ -1096,8 +1096,8 @@ shinyServer(function(input, output, session) {
     mapGLM <- 1-mapGLM
 
     # Projections to Data.Frame Format
-    mapGLM.ggplot2 <- mapGLM |>
-      as("SpatialPixelsDataFrame") |>
+    mapGLM.ggplot2 <- mapGLM %>%
+      as("SpatialPixelsDataFrame") %>%
       as.data.frame()
 
     # Plotting using ggplot2
