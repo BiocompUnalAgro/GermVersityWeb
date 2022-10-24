@@ -542,7 +542,7 @@ shinyUI(fluidPage(
                               )
                      ),
                      tags$div(class = "card",
-                              tags$img(src = "Kevin.jpeg", width = "100px"),
+                              tags$img(src = "Kevin.jpg", width = "100px"),
                               tags$div(class = "containerteam",
                                        tags$h4(tags$b('Kevin Steven Quiroga Benavides')),
                                        tags$img(src = 'unalblack.png', width = '100px'),
