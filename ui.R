@@ -31,7 +31,7 @@ shinyUI(fluidPage(
         ),
         shinydashboard::menuItem("Home",
                                  tabName = 'home',
-                                 icon = icon('home')),
+                                 icon = icon('fas fa-house')),
         shinydashboard::menuItem('Module 1',
                                  tabName = 'module1',
                                  icon = icon('bezier-curve'),

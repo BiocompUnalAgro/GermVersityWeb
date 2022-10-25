@@ -257,7 +257,7 @@ shinyServer(function(input, output, session) {
     require("adegenet")
 
     LimaBeanData2 <- vcfR::vcfR2genind(LimaBeanGBS, pop= Genepool, NA.char= "NA")
-    grp <- find.clusters(LimaBeanData2, max.n.clust = 30, n.pca = input$npca1, n.clust = input$nclust)
+    grp <- find.clusters(LimaBeanData2, max.n.clust = 30, n.pca = input$npca, n.clust = input$nda)
     dapc <- dapc(LimaBeanData2, grp$grp, n.pca = input$npca, n.da = input$nda)
     scatter(dapc)
   })
